@@ -33,15 +33,17 @@ void loop() {
     client.println("Authorization: Basic YjU1Y2VlYWYtZjc0ZS00YTJhLWFkMjYtZGUzMWI5MDA3ZGQwOlJiYk5SYWtZVDA2Qg==");
     client.println("GET /text-to-speech-beta/api/v1/synthesize?accept=audio%2Fwav&text=Testing HTTP/1.1");
     client.println("Host: stream.watsonplatform.net");
-    client.println("Connection: close");
+    /*client.println("Connection: close");*/
     client.println();
-    analogWrite(left, t);
-    digitalWrite(led, LOW);
+    while (client.available()) {
+      char c = client.read();
+      Serial.print(c);
+      analogWrite(left, c);
+    }
+    digitalWrite(led, HIGH);
   } else {
     Serial.println("connection failed");
-    digitalWrite(led, HIGH);
-
-    /*analogWrite(right, t);*/
-
+    digitalWrite(led, l ? HIGH : LOW);
+    l = !l;
   }
 }
