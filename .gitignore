@@ -1,5 +1,5 @@
 ### Spark Dev ###
-.bin
+*.bin
 
 ### OSX ###
 .DS_Store
