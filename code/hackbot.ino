@@ -4,7 +4,7 @@ int right = A1;
 int led = D7;
 
 TCPClient client;
-char server[] = "https://stream.watsonplatform.net/text-to-speech-beta/api/v1/synthesize";
+char server[] = "stream.watsonplatform.net";
 
 void setup() {
   pinMode(led, OUTPUT);
@@ -16,18 +16,18 @@ bool l = false;
 int t = 0;
 
 void loop() {
-  digitalWrite(led, l ? HIGH : LOW);
+  /*digitalWrite(led, l ? HIGH : LOW);
   l = !l;
 
   analogWrite(left, t | t >> 4);
-  analogWrite(right, t | t >> 4);
+  analogWrite(right, t | t >> 4);*/
   t++;
 
   Serial.begin(9600);
   delay(2000);
   Serial.println("connecting...");
 
-  if (client.connect(server)) {
+  if (client.connect(server, 443 )) {
     Serial.println("connected");
 
     client.println("Authorization: Basic YjU1Y2VlYWYtZjc0ZS00YTJhLWFkMjYtZGUzMWI5MDA3ZGQwOlJiYk5SYWtZVDA2Qg==");
@@ -35,7 +35,13 @@ void loop() {
     client.println("Host: stream.watsonplatform.net");
     client.println("Connection: close");
     client.println();
+    analogWrite(left, t);
+    digitalWrite(led, LOW);
   } else {
     Serial.println("connection failed");
+    digitalWrite(led, HIGH);
+
+    /*analogWrite(right, t);*/
+
   }
 }
